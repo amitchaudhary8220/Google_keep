@@ -1,25 +1,58 @@
-import logo from './logo.svg';
+import React ,{useState} from 'react';
 import './App.css';
+import Header from './Header.js';
+import Footer from './Footer.js';
+import CreateNote from './CreateNote';
+import Note from './Note';
+
+
 
 function App() {
+  const [addItem, setAddItem] = useState([]);
+  const onClickHandler = (data) => {
+    // console.log("data after clicking the button ", data);
+    setAddItem((prevData) => {
+      return [...prevData, data];
+    });
+
+    console.log(addItem);
+   
+  }
+
+  const onDeleteHandler =(id) => {
+    setAddItem((oldData) => 
+      oldData.filter((ele, index) => {
+        return index !== id;
+      })
+
+        
+    );
+  }
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+   
+      <>
+      
+      <Header></Header>
+      <CreateNote onClickHandler={onClickHandler}/> 
+      {addItem.map((val, index) => {
+        return <Note key={index}
+          id={index}
+          title={val.title}
+          content={val.content}
+          onDeleteHandler={onDeleteHandler}
+         />
+     })}
+      
+      <Footer />
+      </>
+      
+  
   );
 }
 
 export default App;
+
+
+
+//array.map(function(currentValue,index,arrr),thisValue)
+
